@@ -1,19 +1,33 @@
 from htmlscrubber import Scrubber
 from htmlfetch import Fetcher
-from googlelogin import SessionGoogle
+from pytube import YouTube
+import os
 
 htmlfile = 'html.txt'
 savedfile = 'saved.txt'
 url = 'https://www.youtube.com'
 output = []
+download_folder = '/Users/elizabethyoungblood/Desktop/ToWatch'
 
 fetcher = Fetcher(url)
 scrubber = Scrubber(htmlfile, savedfile)
 
 fetcher.updateFile(htmlfile)
-output = scrubber.scrubFile(htmlfile, output)
+output = scrubber.scrubFile(htmlfile, savedfile, output)
 
-url_login = "https://accounts.google.com/ServiceLogin"
-url_auth = "https://accounts.google.com/ServiceLoginAuth"
-session = SessionGoogle(url_login, url_auth, "arghalexander3000@gmail.com", "D@vid875")
-print (session.get(url))
+with open(savedfile, 'a', encoding='utf-8') as s:
+    for link in output:
+        s.write(link + " ")
+
+with open(savedfile, 'r', encoding='utf-8') as v:
+    td = v.read()
+    td = td.split()
+    print(td)
+
+"""
+for video in td:
+    download = 'https://www.youtube.com' + video
+    yt = YouTube(download)
+    video = yt.get('mp4', '720p')
+    video.download(download_folder)
+"""
