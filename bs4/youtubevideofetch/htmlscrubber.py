@@ -6,11 +6,10 @@ class Scrubber():
     """A class used to get the current Youtube HTML from the file,
         then strip it for links"""
 
-    def __init__(self, htmlfile, savedfile):
+    def __init__(self, htmlfile):
         self.htmlfile = htmlfile
-        self.savedfile = savedfile
 
-    def scrubFile(self, htmlfile, savedfile, output):
+    def scrubFile(self, htmlfile, output):
         f = open(htmlfile, 'r', encoding='utf-8')
         htmldoc = f.read()
 
@@ -25,7 +24,6 @@ class Scrubber():
             if link.get('href') != None:
                 if search_term in link.get('href'):
                     links.append(link.get('href'))
-                    print(link.get('href'))
 
         del links[1::2]
                     
