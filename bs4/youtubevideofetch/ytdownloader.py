@@ -1,5 +1,5 @@
 from htmlscrubber import Scrubber
-from htmlfetchselenium import Fetcher
+from htmlfetch import Fetcher
 from pytube import YouTube
 import os
 import sys
@@ -11,10 +11,10 @@ url = 'https://www.youtube.com'
 output = []
 download_folder = '/Users/elizabethyoungblood/Desktop/ToWatch'
 
-fetcher = Fetcher()
+fetcher = Fetcher(url)
 scrubber = Scrubber(htmlfile)
 
-fetcher.updateFile(htmlfile, url)
+fetcher.updateFile(htmlfile)
 output = scrubber.scrubFile(htmlfile, output)
 
 with open(savedfile, 'r', encoding='utf-8') as v:
@@ -27,9 +27,10 @@ with open(savedfile, 'a', encoding='utf-8') as s:
     for link in output:
         s.write(link + " ")
 
-
-for video in output:
+"""
+for video in td:
     download = 'https://www.youtube.com' + video
     yt = YouTube(download)
     video = yt.get('mp4', '720p')
     video.download(download_folder)
+"""
