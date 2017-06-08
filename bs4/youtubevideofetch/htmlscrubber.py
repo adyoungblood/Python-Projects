@@ -6,11 +6,12 @@ class Scrubber():
     """A class used to get the current Youtube HTML from the file,
         then strip it for links"""
 
-    def __init__(self, htmlfile):
+    def __init__(self, htmlfile, output):
         self.htmlfile = htmlfile
+        self.output = output
 
-    def scrubFile(self, htmlfile, output):
-        f = open(htmlfile, 'r', encoding='utf-8')
+    def scrubFile(self):
+        f = open(self.htmlfile, 'r', encoding='utf-8')
         htmldoc = f.read()
 
         soup = BeautifulSoup(htmldoc, 'html.parser')

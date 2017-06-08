@@ -1,24 +1,26 @@
 import time
 from selenium import webdriver
+import selenium
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import urllib3
 
 class Fetcher():
 
-    def __init__(self):
-        assert 1+1 == 2
+    def __init__(self, file, url):
+        self.file = file
+        self.url = url
 
-    def updateFile(self, file, url):
+    def updateFile(self):
         driver = webdriver.Chrome(executable_path='/Users/elizabethyoungblood/Documents/chromedriver')
-        driver.get(url)
+        driver.get(self.url)
 
         time.sleep(2)
 
         try:
             signInButton = driver.find_element_by_class_name('signin-container')
             signInButton.click()
-        except selenium.common.exceptions.NoSuchWindowException:
+        except selenium.exceptions.NoSuchWindowException:
             signInButton = driver.find_element_by_id('ytd-formatted-string')
             signInButton.click()
 
@@ -48,6 +50,6 @@ class Fetcher():
 
         html_soup = BeautifulSoup(html_source, 'html.parser')
 
-        with open(file, 'w', encoding='utf-8') as f:
+        with open(self.file, 'w', encoding='utf-8') as f:
             f.write(html_soup.prettify())
-
+        driver.quit()
