@@ -26,6 +26,6 @@ class Scrubber():
                 if search_term in link.get('href'):
                     links.append(link.get('href'))
 
-        del links[1::2]
+        links = list(set(links))
                     
         return(links)
