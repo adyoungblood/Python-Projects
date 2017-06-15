@@ -1,5 +1,5 @@
 import time
-from selenium import webdriver
+from selenium import webdriver, exceptions
 import selenium
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
