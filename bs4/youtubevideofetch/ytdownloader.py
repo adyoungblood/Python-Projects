@@ -1,6 +1,7 @@
 from htmlscrubber import Scrubber
 from htmlfetchselenium import Fetcher
 from pytube import YouTube, exceptions
+from socket import gaierror
 import pytube
 import os
 import time
@@ -30,23 +31,30 @@ with open(savedfile, 'a', encoding='utf-8') as s:
     for video in output:
         download = 'https://www.youtube.com' + video
         try:
-            yt = YouTube(download)
-        except ValueError:
-            print(yt.filename + ' was not found.')
-            continue
-        if (yt.filename.startswith('Chro - SubReview')):
-            print('Skipping a Chro Subreview')
-            continue
-        print("Downloading (" + str(output.index(video) + 1) + "/" + str(len(output)) + "): " + yt.filename + " (" + video + ")")
-        try:
-            vidfile = yt.get('mp4', '720p')
-        except pytube.exceptions.DoesNotExist:
-            vidfile = yt.get('mp4', '480p')
-        except pytube.exceptions.DoesNotExist:
-            vidfile = yt.get('mp4', '360p')
-        except pytube.exceptions.DoesNotExist:
-            vidfile = yt.get('mp4', '240p')
-        except pytube.exceptions.DoesNotExist:
+            try:
+                yt = YouTube(download)
+            except ValueError:
+                print(yt.filename + ' was not found.')
+                continue
+            if (yt.filename.startswith('Chro - SubReview')) or ("WAN Show" in yt.filename):
+                print('Skipping')
+                continue
+            print("Downloading (" + str(output.index(video) + 1) + "/" + str(len(output)) + "): " + yt.filename + " (" + video + ")")
+            try:
+                vidfile = yt.get('mp4', '720p')
+            except pytube.exceptions.DoesNotExist:
+                try:
+                    vidfile = yt.get('mp4', '480p')
+                except pytube.exceptions.DoesNotExist:
+                    try:
+                        vidfile = yt.get('mp4', '360p')
+                    except pytube.exceptions.DoesNotExist:
+                        try:
+                            vidfile = yt.get('mp4', '240p')
+                        except pytube.exceptions.DoesNotExist:
+                            pass
+        except socket.gaierror:
+            pass
             vidfile = yt.get('mp4', '144p')
         vidfile.download(download_folder, force_overwrite=True)
         s.write(video + " ")

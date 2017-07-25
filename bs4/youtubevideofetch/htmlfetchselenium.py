@@ -1,7 +1,9 @@
 import time
-from selenium import webdriver, exceptions
+from selenium import webdriver
 import selenium
+from selenium.common import exceptions
 from selenium.webdriver.common.keys import Keys
+from selenium.common import exceptions
 from bs4 import BeautifulSoup
 import urllib3
 
@@ -20,7 +22,7 @@ class Fetcher():
         try:
             signInButton = driver.find_element_by_class_name('signin-container')
             signInButton.click()
-        except selenium.exceptions.NoSuchWindowException:
+        except:
             signInButton = driver.find_element_by_id('ytd-formatted-string')
             signInButton.click()
 
